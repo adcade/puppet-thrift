@@ -13,16 +13,25 @@ class thrift {
 
   package { $pkgs:
     ensure => present,
-    before => Class['instool'],
+    before => Instool['thrift-0.9.0'],
   }
 
-  class {"instool":
-    name => "thrift-0.9.0",
+  package { 'rspec':
+    ensure   => 'installed',
+    provider => 'gem',
+    before   => Instool['thrift-0.9.0'],
+  }
+
+  instool { "thrift-0.9.0":
     url  => "https://dist.apache.org/repos/dist/release/thrift/0.9.0/thrift-0.9.0.tar.gz",
   }
 }
 
-class instool ($name, $url, $dest="/usr/local/lib") {
+define instool (
+  $name=$title,
+  $url,
+  $dest="/usr/local/lib"
+) {
   $tmpdir = "/tmp/${name}"
   $instdir = "${dest}/$name"
   $pkgs = ["wget", "tar", "make"]
