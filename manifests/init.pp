@@ -16,11 +16,11 @@ class thrift {
     before => Instool['thrift-0.9.0'],
   }
 
-  package { 'rspec':
-    ensure   => 'installed',
-    provider => 'gem',
-    before   => Instool['thrift-0.9.0'],
-  }
+  #package { 'rspec':
+  #  ensure   => 'installed',
+  #  provider => 'gem',
+  #  before   => Instool['thrift-0.9.0'],
+  #}
 
   instool { "thrift-0.9.0":
     url  => "https://dist.apache.org/repos/dist/release/thrift/0.9.0/thrift-0.9.0.tar.gz",
@@ -28,15 +28,15 @@ class thrift {
 }
 
 define instool (
-  $name=$title,
+  $thing=$title,
+  $dest="/usr/local/lib",
   $url,
-  $dest="/usr/local/lib"
 ) {
-  $tmpdir = "/tmp/${name}"
-  $instdir = "${dest}/$name"
-  $pkgs = ["wget", "tar", "make"]
+  $tmpdir = "/tmp/${thing}"
+  $instdir = "${dest}/${thing}"
+  $buildpkgs = ["wget", "tar", "make"]
 
-  package { $pkgs:
+  package { $buildpkgs:
     ensure => present,
   }
 
@@ -66,8 +66,6 @@ define instool (
 
   notify {"install ${name} from ${url} to ${dest}/${name}":}
 
-  File[$tmpdir] -> Package[$pkgs] -> Exec['download_and_untar'] -> File[$instdir] ->
+  File[$tmpdir] -> Package[$buildpkgs] -> Exec['download_and_untar'] -> File[$instdir] ->
   Exec["./configure"] -> Exec['make'] -> Exec['make install'] -> Exec['make clean']
 }
-
-
