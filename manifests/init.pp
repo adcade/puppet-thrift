@@ -23,13 +23,17 @@ class thrift {
   #}
 
   instool { "thrift-0.9.0":
-    url  => "https://dist.apache.org/repos/dist/release/thrift/0.9.0/thrift-0.9.0.tar.gz",
+    url    => "https://dist.apache.org/repos/dist/release/thrift/0.9.0/thrift-0.9.0.tar.gz",
+    onlyif => [
+      "test -x thrift"
+    ]
   }
 }
 
 define instool (
   $thing=$title,
   $dest="/usr/local/lib",
+  $onlyif=undef,
   $url,
 ) {
   $tmpdir = "/tmp/${thing}"
@@ -51,17 +55,19 @@ define instool (
   exec{"download_and_untar":
     provider => shell,
     command  => "wget -qO- ${url} | tar xzf - -C /tmp",
+    onlyif   => $onlyif;
   }
 
   file{$instdir:
     ensure  => directory,
     recurse => true,
-    source  => $tmpdir,
+    source  => $tmpdir;
   }
 
   exec{["./configure", "make", "make install", "make clean"]:
     provider => shell,
     cwd      => $instdir,
+    onlyif   => $onlyif;
   }
 
   notify {"install ${name} from ${url} to ${dest}/${name}":}
