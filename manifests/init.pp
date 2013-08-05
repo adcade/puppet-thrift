@@ -38,7 +38,9 @@ define instool (
 ) {
   $tmpdir = "/tmp/${thing}"
   $instdir = "${dest}/${thing}"
-  $buildpkgs = ["wget", "tar", "make"]
+  $buildpkgs = ["tar", "make"]
+
+  include wget
 
   package { $buildpkgs:
     ensure => present,
