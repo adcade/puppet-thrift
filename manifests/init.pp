@@ -1,15 +1,36 @@
 class thrift {
-  $pkgs = [ "libboost-dev",
-            "libboost-test-dev",
-            "libboost-program-options-dev",
-            "libevent-dev",
-            "automake",
-            "libtool",
-            "flex",
-            "bison",
-            "pkg-config",
-            "g++",
-            "libssl-dev",]
+  $yum_pkgs = [ "boost-devel",
+                "boost-test",
+                "boost-program-options",
+                "libevent-devel",
+                "automake",
+                "libtool",
+                "flex",
+                "bison",
+                "pkgconfig",
+                "gcc-c++",
+                "openssl-devel",]
+  $apt_pkgs = [ "libboost-dev",
+                "libboost-test-dev",
+                "libboost-program-options-dev",
+                "libevent-dev",
+                "automake",
+                "libtool",
+                "flex",
+                "bison",
+                "pkg-config",
+                "g++",
+                "libssl-dev",]
+
+  if $::osfamily == "RedHat" {
+    $pkgs = $yum_pkgs
+  }
+  elsif $::operatingsystem == "Amazon" {
+    $pkgs = $yum_pkgs
+  }
+  else {
+    $pkgs = $apt_pkgs
+  }
 
   package { $pkgs:
     ensure => present,
