@@ -44,7 +44,7 @@ class thrift {
   #}
 
   instool { "thrift-0.9.1":
-    url  => "https://dist.apache.org/repos/dist/release/thrift/0.9.1/thrift-0.9.1.tar.gz",
+    url  => "http://www.us.apache.org/dist/thrift/0.9.1/thrift-0.9.1.tar.gz",
     onlyif => [
       "test ! -x /usr/local/bin/thrift"
     ]
