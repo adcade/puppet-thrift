@@ -1,8 +1,0 @@
-name         'adcade-thrift'
-version      '0.1.0'
-summary      'Download, compile and install thrift'
-description  'Download, compile and install thrift'
-author       'Yangming Huang'
-license      'MIT'
-project_page 'https://github.com/Adcade/puppet-thrift'
-dependency   'maestrodev/wget', '>=1.0.0'
