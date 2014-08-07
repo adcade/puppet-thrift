@@ -1,40 +1,50 @@
 class thrift {
-  $yum_pkgs = [ "boost-devel",
-                "boost-test",
-                "boost-program-options",
-                "libevent-devel",
-                "automake",
-                "libtool",
-                "flex",
-                "bison",
-                "pkgconfig",
-                "gcc-c++",
-                "openssl-devel",]
-  $apt_pkgs = [ "libboost-dev",
-                "libboost-test-dev",
-                "libboost-program-options-dev",
-                "libevent-dev",
-                "automake",
-                "libtool",
-                "flex",
-                "bison",
-                "pkg-config",
-                "g++",
-                "libssl-dev",]
 
-  if $::osfamily == "RedHat" {
-    $pkgs = $yum_pkgs
-  }
-  elsif $::operatingsystem == "Amazon" {
-    $pkgs = $yum_pkgs
-  }
-  else {
-    $pkgs = $apt_pkgs
+  $yum_pkgs = [
+    'boost-devel',
+    'boost-test',
+    'boost-program-options',
+    'libevent-devel',
+    'automake',
+    'libtool',
+    'flex',
+    'bison',
+    'pkgconfig',
+    'gcc-c++',
+    'openssl-devel',
+  ]
+
+  $apt_pkgs = [
+    'libboost-dev',
+    'libboost-test-dev',
+    'libboost-program-options-dev',
+    'libevent-dev',
+    'automake',
+    'libtool',
+    'flex',
+    'bison',
+    'pkg-config',
+    'g++',
+    'libssl-dev',
+  ]
+
+  case $::osfamily {
+    'RedHat', 'Amazon': {
+      $pkgs = $yum_pkgs
+    }
+
+    'Debian': {
+      $pkgs = $apt_pkgs
+    }
+
+    default: {
+      fail('Unsupported OS Family')
+    }
   }
 
   package { $pkgs:
     ensure => present,
-    before => Instool['thrift-0.9.0'],
+    before => Instool['thrift-0.9.1'],
   }
 
   #package { 'rspec':
@@ -43,23 +53,23 @@ class thrift {
   #  before   => Instool['thrift-0.9.0'],
   #}
 
-  instool { "thrift-0.9.0":
-    url  => "https://dist.apache.org/repos/dist/release/thrift/0.9.0/thrift-0.9.0.tar.gz",
+  instool { 'thrift-0.9.1':
+    url    => 'http://apache.osuosl.org/thrift/0.9.1/thrift-0.9.1.tar.gz',
     onlyif => [
-      "test ! -x /usr/local/bin/thrift"
+      'test ! -x /usr/local/bin/thrift'
     ]
   }
 }
 
 define instool (
-  $thing=$title,
-  $dest="/usr/local/lib",
-  $onlyif=undef,
   $url,
+  $thing=$title,
+  $dest='/usr/local/lib',
+  $onlyif=undef,
 ) {
   $tmpdir = "/tmp/${thing}"
   $instdir = "${dest}/${thing}"
-  $buildpkgs = ["tar", "make"]
+  $buildpkgs = ['tar', 'make']
 
   include wget
 
@@ -75,7 +85,7 @@ define instool (
     subscribe => File[$tmpdir],
   }
 
-  exec{"download_and_untar":
+  exec{'download_and_untar':
     provider => shell,
     command  => "wget -qO- ${url} | tar xzf - -C /tmp",
     onlyif   => $onlyif;
@@ -87,7 +97,7 @@ define instool (
     source  => $tmpdir;
   }
 
-  exec{["./configure", "make", "make install", "make clean"]:
+  exec{['./configure --without-python --without-tests', 'make', 'make install', 'make clean']:
     provider => shell,
     cwd      => $instdir,
     onlyif   => $onlyif;
@@ -96,5 +106,5 @@ define instool (
   notify {"install ${name} from ${url} to ${dest}/${name}":}
 
   File[$tmpdir] -> Package[$buildpkgs] -> Exec['download_and_untar'] -> File[$instdir] ->
-  Exec["./configure"] -> Exec['make'] -> Exec['make install'] -> Exec['make clean']
+  Exec['./configure --without-python --without-tests'] -> Exec['make'] -> Exec['make install'] -> Exec['make clean']
 }
