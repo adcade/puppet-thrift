@@ -1,2 +1,7 @@
-.vagrant
+spec/fixtures
+*.swp
 pkg/
+.bundle/
+.ruby-*
+coverage
+Gemfile.lock

@@ -1,0 +1,22 @@
+---
+language: ruby
+install: bundle install
+script:
+  - "bundle exec rake lint"
+  - "bundle exec rake spec"
+branches:
+  only:
+    - master
+rvm:
+  - 1.9.3
+  - 2.1.2
+env: 
+  - PUPPET_VERSION="~> 3.4.0"
+  - PUPPET_VERSION="~> 3.6.0"
+notifications:
+  email:
+    recipients:
+      - feniix@gmail.com
+    on_failure: always
+    on_success: change
+
