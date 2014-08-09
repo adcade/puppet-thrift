@@ -44,7 +44,7 @@ class thrift {
 
   package { $pkgs:
     ensure => present,
-    before => Instool['thrift-0.9.1'],
+    before => Thrift::Instool['thrift-0.9.1'],
   }
 
   #package { 'rspec':
@@ -53,58 +53,10 @@ class thrift {
   #  before   => Instool['thrift-0.9.0'],
   #}
 
-  instool { 'thrift-0.9.1':
+  thrift::instool { 'thrift-0.9.1':
     url    => 'http://apache.osuosl.org/thrift/0.9.1/thrift-0.9.1.tar.gz',
     onlyif => [
       'test ! -x /usr/local/bin/thrift'
     ]
   }
-}
-
-define instool (
-  $url,
-  $thing=$title,
-  $dest='/usr/local/lib',
-  $onlyif=undef,
-) {
-  $tmpdir = "/tmp/${thing}"
-  $instdir = "${dest}/${thing}"
-  $buildpkgs = ['tar', 'make']
-
-  include wget
-
-  package { $buildpkgs:
-    ensure => present,
-  }
-
-  file {$tmpdir:
-    ensure  => directory,
-  }
-
-  notify {"${tmpdir} is ensured":
-    subscribe => File[$tmpdir],
-  }
-
-  exec{'download_and_untar':
-    provider => shell,
-    command  => "wget -qO- ${url} | tar xzf - -C /tmp",
-    onlyif   => $onlyif;
-  }
-
-  file{$instdir:
-    ensure  => directory,
-    recurse => true,
-    source  => $tmpdir;
-  }
-
-  exec{['./configure --without-python --without-tests', 'make', 'make install', 'make clean']:
-    provider => shell,
-    cwd      => $instdir,
-    onlyif   => $onlyif;
-  }
-
-  notify {"install ${name} from ${url} to ${dest}/${name}":}
-
-  File[$tmpdir] -> Package[$buildpkgs] -> Exec['download_and_untar'] -> File[$instdir] ->
-  Exec['./configure --without-python --without-tests'] -> Exec['make'] -> Exec['make install'] -> Exec['make clean']
 }
