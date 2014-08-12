@@ -3,5 +3,8 @@ fixtures:
     stdlib:
       repo: "maestrodev/wget"
       ref: "1.5.0"
+    apt:
+      repo: "puppetlabs/apt"
+      ref: "1.5.2"
   symlinks:
     thrift: "#{source_dir}"
