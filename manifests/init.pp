@@ -1,7 +1,5 @@
 class thrift {
 
-  include apt
-
   $yum_pkgs = [
     'boost-devel',
     'boost-test',
