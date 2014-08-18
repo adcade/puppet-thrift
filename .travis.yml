@@ -1,7 +1,7 @@
 ---
 language: ruby
 before_install: rm Gemfile.lock || true
-install: bundle install --without development
+install: bundle install
 rvm:
   - 1.9.3
   - 2.0.0
