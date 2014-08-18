@@ -1,3 +1,6 @@
+# == Define: thrift::instool
+#
+#
 define thrift::instool (
   $url,
   $thing=$title,

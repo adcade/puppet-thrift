@@ -25,10 +25,9 @@ describe 'thrift::instool', :type => :define do
       'recurse' => 'true',
       'source' => '/tmp/thrift-0.9.1'
     ) }
-    ['./configure --without-python --without-tests', 'make', 'make install', 'make clean'].each do |exec|
-      it { should contain_exec(exec).with(
-        'cwd' => '/usr/local/lib/thrift-0.9.1'
-      ) }
-    end
+    it { should contain_exec('./configure --without-python --without-tests').that_comes_before('Exec[make]')}
+    it { should contain_exec('make').that_comes_before('Exec[make install]')}
+    it { should contain_exec('make install').that_comes_before('Exec[make clean]')}
+    it { should contain_exec('make clean')}
   end
 end

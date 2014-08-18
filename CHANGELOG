@@ -1,0 +1,6 @@
+2014-08-18 Release 0.4.0
+- added support to specify thrift version
+- update dev env to puppet-module-skeleton from
+https://github.com/feniix/puppet-module-skeleton
+- fix all tests
+

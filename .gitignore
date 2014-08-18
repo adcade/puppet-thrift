@@ -1,7 +1,21 @@
-spec/fixtures
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
 *.swp
-pkg/
-.bundle/
-.ruby-*
-coverage
-Gemfile.lock
+tags
+
+## PUPPET MODULE
+pkg
+spec/fixtures
+.rspec_system
+.vagrant

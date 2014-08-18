@@ -1,7 +1,10 @@
 fixtures:
   forge_modules:
     stdlib:
-      repo: "maestrodev/wget"
-      ref: "1.5.0"
+      repo: 'puppetlabs/stdlib'
+      ref: '4.1.0'
+    wget:
+      repo: 'maestrodev/wget'
+      ref: '1.5.0'
   symlinks:
     thrift: "#{source_dir}"

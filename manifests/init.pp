@@ -1,60 +1,53 @@
-class thrift {
+# == Class: thrift
+#
+# Downloads, compiles and installs thrift
+#
+# === Parameters
+#
+# [*version*]
+#   Sets the thrift version, module defaults to the 0.9.1 for now
+# [*base_url*]
+#   Url where to download thrift
+# [*pkgs*]
+#   Array with packages to install
+#
+# === Examples
+#
+# include thrift
+#
+# === Authors
+#
+# Sebastian Otaegui <feniix@gmail.com>
+#
+# === Copyright
+#
+# Copyright 2014 Sebastian Otaegui, unless otherwise noted.
+#
+class thrift(
+  $version = $thrift::params::version,
+  $base_url = $thrift::params::base_url,
+  $pkgs = $thrift::params::pkgs,
+) inherits thrift::params {
 
-  $yum_pkgs = [
-    'boost-devel',
-    'boost-test',
-    'boost-program-options',
-    'libevent-devel',
-    'automake',
-    'libtool',
-    'flex',
-    'bison',
-    'pkgconfig',
-    'gcc-c++',
-    'openssl-devel',
-  ]
-
-  $apt_pkgs = [
-    'libboost-dev',
-    'libboost-test-dev',
-    'libboost-program-options-dev',
-    'libevent-dev',
-    'automake',
-    'libtool',
-    'flex',
-    'bison',
-    'pkg-config',
-    'g++',
-    'libssl-dev',
-  ]
+  validate_re($version, '^\d+\.\d+\.\d+$')
+  validate_array($pkgs)
 
   case $::osfamily {
-    'RedHat', 'Amazon': {
-      $pkgs = $yum_pkgs
+    'RedHat', 'Amazon', 'Debian': {
+      notify { "${::operatingsystem} is supported": }
     }
-
-    'Debian': {
-      $pkgs = $apt_pkgs
-    }
-
     default: {
-      fail('Unsupported OS Family')
+      fail("${::osfamily} not supported")
     }
   }
 
   package { $pkgs:
     ensure => present,
-    before => Thrift::Instool['thrift-0.9.1'],
+    before => Thrift::Instool["thrift-${version}"],
   }
 
-  #package { 'rspec':
-  #  ensure   => 'installed',
-  #  provider => 'gem',
-  #  before   => Instool['thrift-0.9.0'],
-  #}
-
-  thrift::instool { 'thrift-0.9.1':
-    url    => 'http://apache.osuosl.org/thrift/0.9.1/thrift-0.9.1.tar.gz',
+  thrift::instool { "thrift-${version}":
+    url    => "${base_url}/${version}/thrift-${version}.tar.gz",
     onlyif => [
       'test ! -x /usr/local/bin/thrift'
     ]

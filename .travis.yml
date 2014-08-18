@@ -1,22 +1,33 @@
 ---
 language: ruby
+bundler_args: --without development
+before_install: rm Gemfile.lock || true
 install: bundle install
-script:
-  - "bundle exec rake lint"
-  - "bundle exec rake spec"
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+env: 
+  - PUPPET_VERSION="~> 3.2.0"
+  - PUPPET_VERSION="~> 3.3.0"
+  - PUPPET_VERSION="~> 3.4.0"
+  - PUPPET_VERSION="~> 3.5.0"
+  - PUPPET_VERSION="~> 3.6.0"
+script:  bundle exec rake test
 branches:
   only:
     - master
-rvm:
-  - 1.9.3
-  - 2.1.2
-env: 
-  - PUPPET_VERSION="~> 3.4.0"
-  - PUPPET_VERSION="~> 3.6.0"
 notifications:
   email:
     recipients:
       - feniix@gmail.com
-    on_failure: always
+    on_failure: change
     on_success: change
-
+matrix:
+  exclude:
+  - rvm: 2.1.0
+    env: PUPPET_VERSION="~> 3.2.0"
+  - rvm: 2.1.0
+    env: PUPPET_VERSION="~> 3.3.0"
+  - rvm: 2.1.0
+    env: PUPPET_VERSION="~> 3.4.0"
