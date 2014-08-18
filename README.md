@@ -1,5 +1,7 @@
 # thrift
 
+[![Build Status](https://travis-ci.org/Spantree/puppet-thrift.svg?branch=master)](https://travis-ci.org/Spantree/puppet-thrift)
+
 #### Table of Contents
 
 1. [Overview](#overview)
