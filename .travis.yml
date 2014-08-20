@@ -3,16 +3,16 @@ language: ruby
 before_install: rm Gemfile.lock || true
 install: bundle install --without development
 rvm:
-  #  - 1.9.3
-  #  - 2.0.0
+  - 1.9.3
+  - 2.0.0
   - 2.1.0
 env: 
-  #  - PUPPET_VERSION="~> 3.2.0"
-  #  - PUPPET_VERSION="~> 3.3.0"
-  #  - PUPPET_VERSION="~> 3.4.0"
-  #  - PUPPET_VERSION="~> 3.5.0"
+  - PUPPET_VERSION="~> 3.2.0"
+  - PUPPET_VERSION="~> 3.3.0"
+  - PUPPET_VERSION="~> 3.4.0"
+  - PUPPET_VERSION="~> 3.5.0"
   - PUPPET_VERSION="~> 3.6.0"
-script:  bundle exec rake test --trace
+script:  bundle exec rake test
 branches:
   only:
     - master
