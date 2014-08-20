@@ -246,7 +246,7 @@ DEPENDENCIES
   guard-rake
   puppet (>= 3.3)
   puppet-blacksmith
-  puppet-lint (>= 0.3.2)
+  puppet-lint (>= 1.0.0)
   puppetlabs_spec_helper (>= 0.1.0)
   rake
   rspec-puppet!
