@@ -13,6 +13,7 @@ end
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
+PuppetLint.configuration.relative = true
 
 # Forsake support for Puppet 2.6.2 for the benefit of cleaner code.
 # http://puppet-lint.com/checks/class_parameter_defaults/
