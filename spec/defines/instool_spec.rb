@@ -21,7 +21,7 @@ describe 'thrift::instool', :type => :define do
     it { should contain_exec('download_and_untar').with(
       'command' => 'wget -qO- http://theurl | tar xzf - -C /tmp'
     ) }
-    it { should contain_file('/usr/local/lib/thrift-0.9.1').with(
+    it { should contain_file('/usr/local/src/thrift-0.9.1').with(
       'ensure' => 'directory',
       'recurse' => 'true',
       'source' => '/tmp/thrift-0.9.1'

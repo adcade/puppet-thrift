@@ -66,6 +66,8 @@ describe 'thrift', :type => :class do
   end
   context 'unsupported operating systems' do
     let(:facts) {{ :osfamily => 'xxx' }}
-    it { expect { should compile }.to raise_error(/not supported/) }
+    it 'should fail if operating system family not supported' do
+      expect { should compile }.to raise_error(/not supported/)
+    end
   end
 end

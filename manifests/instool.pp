@@ -4,7 +4,7 @@
 define thrift::instool (
   $url,
   $thing=$title,
-  $dest='/usr/local/lib',
+  $dest='/usr/local/src',
   $onlyif=undef,
 ) {
   $tmpdir = "/tmp/${thing}"
