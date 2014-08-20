@@ -12,10 +12,9 @@ define thrift::instool (
   $buildpkgs = ['tar', 'make']
 
   include wget
+  include ant
 
-  package { $buildpkgs:
-    ensure => present,
-  }
+  ensure_packages($buildpkgs)
 
   file {$tmpdir:
     ensure => directory,
