@@ -4,7 +4,7 @@
 define thrift::instool (
   $url,
   $thing=$title,
-  $dest='/usr/local/lib',
+  $dest='/usr/local/src',
   $onlyif=undef,
 ) {
   $tmpdir = "/tmp/${thing}"
@@ -12,10 +12,9 @@ define thrift::instool (
   $buildpkgs = ['tar', 'make']
 
   include wget
+  include ant
 
-  package { $buildpkgs:
-    ensure => present,
-  }
+  ensure_packages($buildpkgs)
 
   file {$tmpdir:
     ensure => directory,

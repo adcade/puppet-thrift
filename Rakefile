@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-lint/tasks/puppet-lint'
+require 'rake/clean'
 
 
 # These two gems aren't always present, for instance
@@ -10,6 +11,8 @@ begin
 rescue LoadError
 end
 
+clean_paths = ["spec/fixtures/*", "pkg"]
+CLEAN.include(clean_paths)
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"

@@ -15,6 +15,7 @@ class thrift::params {
     'pkgconfig',
     'gcc-c++',
     'openssl-devel',
+    'java-1.7.0-openjdk-devel',
   ]
 
   $apt_pkgs = [
@@ -29,6 +30,8 @@ class thrift::params {
     'pkg-config',
     'g++',
     'libssl-dev',
+    'openjdk-7-jdk',
+    'libcommons-lang3-java',
   ]
 
   case $::osfamily {
