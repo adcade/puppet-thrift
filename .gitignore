@@ -1,2 +1,21 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+tags
+
+## PUPPET MODULE
+pkg
+spec/fixtures
+.rspec_system
 .vagrant
-pkg/

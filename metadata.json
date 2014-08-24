@@ -1,0 +1,60 @@
+{
+  "name": "spantree-thrift",
+  "version": "0.0.6",
+  "author": "spantree",
+  "summary": "Download, compile and install thrift",
+  "license": "MIT",
+  "source": "https://github.com/Spantree/puppet-thrift.git",
+  "project_page": "https://github.com/spantree/puppet-thrift",
+  "issues_url": "https://github.com/spantree/puppet-thrift/issues",
+  "description": "This is a fork from https://github.com/Adcade/puppet-thrift.git",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04",
+        "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "maestrodev-wget",
+      "version_range": ">= 1.0.0"
+    },
+    {
+      "name": "maestrodev-ant",
+      "version_range": ">= 1.0.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_range": ">= 4.0.0"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">=3.0.0 <4.0.0"
+    }
+  ]
+}

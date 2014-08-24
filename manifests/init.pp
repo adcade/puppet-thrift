@@ -1,100 +1,55 @@
-class thrift {
-  $yum_pkgs = [ "boost-devel",
-                "boost-test",
-                "boost-program-options",
-                "libevent-devel",
-                "automake",
-                "libtool",
-                "flex",
-                "bison",
-                "pkgconfig",
-                "gcc-c++",
-                "openssl-devel",]
-  $apt_pkgs = [ "libboost-dev",
-                "libboost-test-dev",
-                "libboost-program-options-dev",
-                "libevent-dev",
-                "automake",
-                "libtool",
-                "flex",
-                "bison",
-                "pkg-config",
-                "g++",
-                "libssl-dev",]
+# == Class: thrift
+#
+# Downloads, compiles and installs thrift
+#
+# === Parameters
+#
+# [*version*]
+#   Sets the thrift version, module defaults to the 0.9.1 for now
+# [*base_url*]
+#   Url where to download thrift
+# [*pkgs*]
+#   Array with packages to install
+#
+# === Examples
+#
+# include thrift
+#
+# === Authors
+#
+# Sebastian Otaegui <feniix@gmail.com>
+#
+# === Copyright
+#
+# Copyright 2014 Sebastian Otaegui, unless otherwise noted.
+#
+class thrift(
+  $version = $thrift::params::version,
+  $base_url = $thrift::params::base_url,
+  $pkgs = $thrift::params::pkgs,
+) inherits thrift::params {
 
-  if $::osfamily == "RedHat" {
-    $pkgs = $yum_pkgs
-  }
-  elsif $::operatingsystem == "Amazon" {
-    $pkgs = $yum_pkgs
-  }
-  else {
-    $pkgs = $apt_pkgs
+  validate_re($version, '^\d+\.\d+\.\d+$')
+  validate_array($pkgs)
+
+  case $::osfamily {
+    'RedHat', 'Amazon', 'Debian': {
+      notify { "${::operatingsystem} is supported": }
+    }
+    default: {
+      fail("${::osfamily} not supported")
+    }
   }
 
   package { $pkgs:
     ensure => present,
-    before => Instool['thrift-0.9.0'],
+    before => Thrift::Instool["thrift-${version}"],
   }
 
-  #package { 'rspec':
-  #  ensure   => 'installed',
-  #  provider => 'gem',
-  #  before   => Instool['thrift-0.9.0'],
-  #}
-
-  instool { "thrift-0.9.0":
-    url  => "https://dist.apache.org/repos/dist/release/thrift/0.9.0/thrift-0.9.0.tar.gz",
+  thrift::instool { "thrift-${version}":
+    url    => "${base_url}/${version}/thrift-${version}.tar.gz",
     onlyif => [
-      "test ! -x /usr/local/bin/thrift"
+      'test ! -x /usr/local/bin/thrift'
     ]
   }
-}
-
-define instool (
-  $thing=$title,
-  $dest="/usr/local/lib",
-  $onlyif=undef,
-  $url,
-) {
-  $tmpdir = "/tmp/${thing}"
-  $instdir = "${dest}/${thing}"
-  $buildpkgs = ["tar", "make"]
-
-  include wget
-
-  package { $buildpkgs:
-    ensure => present,
-  }
-
-  file {$tmpdir:
-    ensure  => directory,
-  }
-
-  notify {"${tmpdir} is ensured":
-    subscribe => File[$tmpdir],
-  }
-
-  exec{"download_and_untar":
-    provider => shell,
-    command  => "wget -qO- ${url} | tar xzf - -C /tmp",
-    onlyif   => $onlyif;
-  }
-
-  file{$instdir:
-    ensure  => directory,
-    recurse => true,
-    source  => $tmpdir;
-  }
-
-  exec{["./configure", "make", "make install", "make clean"]:
-    provider => shell,
-    cwd      => $instdir,
-    onlyif   => $onlyif;
-  }
-
-  notify {"install ${name} from ${url} to ${dest}/${name}":}
-
-  File[$tmpdir] -> Package[$buildpkgs] -> Exec['download_and_untar'] -> File[$instdir] ->
-  Exec["./configure"] -> Exec['make'] -> Exec['make install'] -> Exec['make clean']
 }
