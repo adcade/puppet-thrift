@@ -80,7 +80,7 @@ The following parameters are available in the thrift module:
 
 ####`version`
 
-Specify the version of thrift to use, at the moment defaults to 0.9.0
+Specify the version of thrift to use, at the moment defaults to 0.9.1
 
 ####`base_url`
 
