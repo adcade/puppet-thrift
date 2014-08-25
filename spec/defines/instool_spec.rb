@@ -12,11 +12,7 @@ describe 'thrift::instool', :type => :define do
     it { should contain_thrift__instool('thrift-0.9.1') }
     it { should contain_class('ant') }
     it { should contain_archive('download_and_untar') }
-    it { should contain_file('/usr/local/src/thrift-0.9.1').with(
-      'ensure' => 'directory',
-      'recurse' => 'true',
-      'source' => '/tmp/thrift-0.9.1'
-    ) }
+    it { should contain_file('/usr/local/src/thrift-0.9.1').with_ensure('directory') }
     it { should contain_exec('./configure --without-python --without-tests').that_comes_before('Exec[make]')}
     it { should contain_exec('make').that_comes_before('Exec[make install]')}
     it { should contain_exec('make install').that_comes_before('Exec[make clean]')}

@@ -7,21 +7,21 @@ define thrift::instool (
   $dest='/usr/local/src',
   $onlyif=undef,
 ) {
-  $source_dir = "/tmp/${thing}"
   $instdir = "${dest}/${thing}"
 
   include ant
 
   archive {'download_and_untar':
-    ensure => present,
-    url    => $url,
-    target => $dest,
+    ensure   => present,
+    name     => $thing,
+    url      => $url,
+    target   => $dest,
+    checksum => false,
+    before   => File[$instdir],
   }
 
   file{$instdir:
     ensure  => directory,
-    recurse => true,
-    source  => $source_dir,
     require => Archive['download_and_untar'],
   }
 
