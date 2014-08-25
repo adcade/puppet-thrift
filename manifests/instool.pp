@@ -7,47 +7,33 @@ define thrift::instool (
   $dest='/usr/local/src',
   $onlyif=undef,
 ) {
-  $tmpdir = "/tmp/${thing}"
   $instdir = "${dest}/${thing}"
-  $buildpkgs = ['tar', 'make']
 
-  include wget
   include ant
 
-  ensure_packages($buildpkgs)
-
-  file {$tmpdir:
-    ensure => directory,
-    before => Exec['download_and_untar'],
-  }
-
-  notify {"${tmpdir} is ensured":
-    subscribe => File[$tmpdir],
-  }
-
-  exec{'download_and_untar':
-    provider => shell,
-    command  => "wget -qO- ${url} | tar xzf - -C /tmp",
-    onlyif   => $onlyif,
-    before   => Package[$buildpkgs]
+  archive {'download_and_untar':
+    ensure   => present,
+    name     => $thing,
+    url      => $url,
+    target   => $dest,
+    checksum => false,
+    before   => File[$instdir],
   }
 
   file{$instdir:
     ensure  => directory,
-    recurse => true,
-    source  => $tmpdir,
-    before  => Exec['download_and_untar'],
+    require => Archive['download_and_untar'],
   }
 
   exec{['./configure --without-python --without-tests', 'make', 'make install', 'make clean']:
     provider => shell,
     cwd      => $instdir,
     onlyif   => $onlyif,
-    require  => File[$instdir],
   }
 
   notify {"install ${name} from ${url} to ${dest}/${name}":}
 
+  File[$instdir] ->
   Exec['./configure --without-python --without-tests'] ->
   Exec['make'] ->
   Exec['make install'] ->
