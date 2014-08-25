@@ -39,12 +39,12 @@
   ],
   "dependencies": [
     {
-      "name": "maestrodev-wget",
-      "version_range": ">= 1.0.0"
+      "name": "gini-archive",
+      "version_range": ">= 0.2.0"
     },
     {
       "name": "maestrodev-ant",
-      "version_range": ">= 1.0.0"
+      "version_range": ">= 1.0.5"
     },
     {
       "name": "puppetlabs/stdlib",
@@ -54,7 +54,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=3.0.0 <4.0.0"
+      "version_requirement": ">=3.2.0 <4.0.0"
     }
   ]
 }
