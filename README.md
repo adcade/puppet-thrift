@@ -5,7 +5,7 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
+2. [Module Description](#module-description)
 3. [Setup - The basics of getting started with thrift](#setup)
     * [What thrift affects](#what-thrift-affects)
     * [Setup requirements](#setup-requirements)
@@ -17,65 +17,96 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+The thrift module downloads, compiles and installs. The module has been tested on Centos and Ubuntu but it should work on RedHat, Amazon Linux and Debian 7.
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+This module installs thrift with java bindings, in order to do it, it will install openjdk 7 and ant from the apache ant website.
 
 ## Setup
 
 ### What thrift affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* Install the thrift binary `/usr/local/bin/thrift`.
+* Install openjdk7 and ant from the apache-ant website.
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+None at the moment.
 
 ### Beginning with thrift
 
-The very basic steps needed for a user to get the module up and running.
+`include thrift` is enough to get you up and running. If you wish to pass in parameters specifying a specific version of thrift, then:
+```puppet
+class { 'thrift':
+  version => '0.9.0'
+}
+```
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+##Usage
 
-## Usage
+All interaction with the thrift module can be done through the main thrift class.
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+###I just want Thrift, what's the minimum I need?
+```puppet
+include thrift
+```
 
-## Reference
+###I want a specific version of thrift
+```puppet
+class { 'thrift':
+  version => '0.9.0',
+}
+```
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+###I want to specify a different download source because I am behind a firewall
+```puppet
+class { 'thrift':
+  base_url => 'http://myinternalhost/thrift'
+}
+```
 
-## Limitations
+##Reference
 
-This is where you list OS compatibility, version compatibility, etc.
+###Classes
+
+####Public Classes
+
+* thrift: Main class
+
+###Parameters
+
+The following parameters are available in the thrift module:
+
+####`version`
+
+Specify the version of thrift to use, at the moment defaults to 0.9.0
+
+####`base_url`
+
+Sets the base url for the download location
+
+###Facts
+
+####`thrift_version`
+
+Set to the thrift version that is installed.
+
+####`thrift_path`
+
+Set to the path of the thrift binary
+
+##Limitations
+
+This module has been built on and tested against Puppet 3.2 and higher.
+
+The module has been tested on:
+
+* CentOS 6
+* Ubuntu 14.04
+
+Testing on other platforms has been light and cannot be guaranteed.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+## Release Notes/Contributors/Etc
