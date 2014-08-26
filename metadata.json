@@ -1,6 +1,6 @@
 {
   "name": "spantree-thrift",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "spantree",
   "summary": "Download, compile and install thrift",
   "license": "MIT",
