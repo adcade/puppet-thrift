@@ -18,7 +18,7 @@ define thrift::instool (
     target   => $dest,
     checksum => false,
     before   => File[$instdir],
-    path    => $instdir,
+    path     => $instdir,
   }
 
   file{$instdir:
