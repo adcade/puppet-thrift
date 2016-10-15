@@ -30,6 +30,7 @@ define thrift::instool (
     provider => shell,
     cwd      => $instdir,
     onlyif   => $onlyif,
+    timeout  => 0,
   }
 
   notify {"install ${name} from ${url} to ${dest}/${name}":}

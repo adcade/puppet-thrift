@@ -49,7 +49,7 @@ class thrift(
   thrift::instool { "thrift-${version}":
     url    => "${base_url}/${version}/thrift-${version}.tar.gz",
     onlyif => [
-      'test ! -x /usr/local/bin/thrift'
+      'test ! -x $(which thrift)'
     ]
   }
 }
