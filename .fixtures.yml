@@ -2,15 +2,15 @@ fixtures:
   forge_modules:
     stdlib:
       repo: 'puppetlabs/stdlib'
-      ref: '4.1.0'
+      ref: '4.13.1'
     wget:
       repo: 'maestrodev/wget'
-      ref: '1.5.1'
+      ref: '1.7.3'
     ant:
       repo: 'maestrodev/ant'
       ref: '1.0.5'
     archive:
-      repo: 'gini/archive'
-      ref: '0.2.0'
+      repo: 'camptocamp/archive'
+      ref: '0.9.0'
   symlinks:
     thrift: "#{source_dir}"

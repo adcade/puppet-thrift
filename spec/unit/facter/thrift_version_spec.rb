@@ -9,8 +9,8 @@ describe "Facter::Util::Fact" do
   describe "thrift_version" do
     it do
       allow(Facter::Util::Resolution).to receive(:exec).with("thrift --version").
-      and_return("Thrift version 0.9.0")
-      Facter.fact(:thrift_version).value.should == "0.9.0"
+        and_return("Thrift version 0.9.0")
+      expect(Facter.fact(:thrift_version).value).to eql("0.9.0")
     end
   end
 end
