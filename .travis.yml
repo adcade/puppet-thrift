@@ -3,7 +3,7 @@ language: ruby
 cache: bundler
 before_install:
   - rm gemfile.lock || true
-  - gem install -v bundler
+  - gem install -V bundler
 install:
   - travis_retry bundle install --without development
   - bundle list
