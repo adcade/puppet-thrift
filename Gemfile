@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-puppetversion = ENV.key?('PUPPET_VERSION') ? "#{ENV['PUPPET_VERSION']}" : ['~> 4']
+puppetversion = ENV.key?('PUPPET_VERSION') ? "#{ENV['PUPPET_VERSION']}" : ['~> 4.10.0']
 
 group :test do
   gem "rake"
@@ -18,5 +18,6 @@ group :development do
   gem "beaker-rspec"
   gem "vagrant-wrapper"
   gem "puppet-blacksmith"
-  gem "metadata-json-lint"
 end
+
+gem 'nokogiri', '~> 1.8'

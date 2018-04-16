@@ -35,9 +35,9 @@ define thrift::instool (
 
   notify {"install ${name} from ${url} to ${dest}/${name}":}
 
-  File[$instdir] ->
-  Exec['./configure --without-python --without-tests'] ->
-  Exec['make'] ->
-  Exec['make install'] ->
-  Exec['make clean']
+  File[$instdir]
+  -> Exec['./configure --without-python --without-tests']
+  -> Exec['make']
+  -> Exec['make install']
+  -> Exec['make clean']
 }

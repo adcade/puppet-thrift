@@ -13,25 +13,21 @@ end
 
 clean_paths = ["spec/fixtures/*", "pkg"]
 CLEAN.include(clean_paths)
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
+#PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
+PuppetLint.configuration.relative = true
+
+# Forsake support for Puppet 2.6.2 for the benefit of cleaner code.
+# http://puppet-lint.com/checks/class_parameter_defaults/
+PuppetLint.configuration.send('disable_class_parameter_defaults')
+# http://puppet-lint.com/checks/class_inherits_from_params_class/
+PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+PuppetLint.configuration.fail_on_warnings = true
 
 desc "Run acceptance tests"
 RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
-end
-
-exclude_paths = ["spec/**/*.pp", "pkg/**/*.pp", "vendor/**/*.pp"]
-Rake::Task[:lint].clear
-PuppetLint::RakeTask.new :lint do |config|
-  config.disable_checks = [
-    '80chars',
-    'class_parameter_defaults',
-    'class_inherits_from_params_class',
-  ]
-  config.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
-  config.fail_on_warnings = true
-  PuppetLint.configuration.relative = true # workaround until puppet-lint 1.1.1 is released
-
-  config.ignore_paths = exclude_paths
 end
 
 desc "Run syntax, lint, and spec tests."
